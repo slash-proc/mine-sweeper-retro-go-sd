@@ -1,4 +1,5 @@
 #include "font.h"
+#include <stdint.h>
 #include "mine_common.h"
 #include "embMineDevice.h"
 
@@ -16,7 +17,7 @@
 //     XXXX
 // };
 // Font_Type FONTXXX = {
-//     W, H, &_FFFNNxNN, IS_HANZI/NOT_HANZI
+//     W, H, _FFFNNxNN, IS_HANZI/NOT_HANZI
 // };
 // #endif
 
@@ -122,7 +123,7 @@ const u8 _F6x8[] =
   0x00,0x00,0x40,0xE8,0xA8,0x10,0x00,0x00, /*"~",94*/
 };
 Font_Type FONT8 = {
-    1, 6, 8, &_F6x8, FONT_TYPE_ASCII
+    1, 6, 8, _F6x8, FONT_TYPE_ASCII
 };
 #endif
 
@@ -226,7 +227,7 @@ const u8 _F8x12[] =
     0x00,0x68,0x90,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,  /*"~",94*/
 };
 Font_Type FONT_ASC12 = {
-    1, 8, 12, &_F8x12, FONT_TYPE_ASCII
+    1, 8, 12, _F8x12, FONT_TYPE_ASCII
 };
 #endif
 
@@ -331,7 +332,7 @@ const u8 _F8x16[]=
   0x30,0x4C,0x43,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00, /*"~",94*/
 };
 Font_Type FONT_ASC16 = {
-    1, 8, 16, &_F8x16, FONT_TYPE_ASCII
+    1, 8, 16, _F8x16, FONT_TYPE_ASCII
 };
 #endif
 
@@ -531,7 +532,7 @@ const u8 _F10x20[]=
   0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00, /*"~",94*/
 };
 Font_Type FONT20 = {
-    1, 10, 20, &_F10x20, FONT_TYPE_ASCII
+    1, 10, 20, _F10x20, FONT_TYPE_ASCII
 };
 #endif
 
@@ -1111,7 +1112,7 @@ const u8 _F20x30[]=
     0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,/*"~",94*/
     };
     Font_Type FONT_ASC32 = {
-        1, 20, 30, &_F20x30, FONT_TYPE_ASCII
+        1, 20, 30, _F20x30, FONT_TYPE_ASCII
     };
 #endif
 
@@ -1364,7 +1365,7 @@ const u8 _HZ_32[]=
 
 };
 Font_Type FONTHZ32 = {
-    1, 27, 30, &_HZ_32, FONT_TYPE_HZ, HZK_STR, &FONT_ASC32 //壹貳叁 代替 ①②③ 代表按鍵
+    1, 27, 30, _HZ_32, FONT_TYPE_HZ, (const u8 *)HZK_STR, &FONT_ASC32 //壹貳叁 代替 ①②③ 代表按鍵
 };
 #endif
 
@@ -1378,7 +1379,7 @@ const u8 _ICONS[]=
     0x03,0xFF,0xFE,0x00,0x07,0xFF,0xFF,0x00,0x07,0xFF,0xFF,0x00,0x07,0xFF,0xFF,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,/* Flag */
 };
 Font_Type FONT_ICON_FLAG = {
-    1, 27, 30, &_ICONS, FONT_TYPE_IMG
+    1, 27, 30, _ICONS, FONT_TYPE_IMG
 };
 
 
@@ -1567,7 +1568,7 @@ const u8 _HZ_64[]=
     0X00,0X01,0X55,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
 };
 Font_Type FONTHZ_TITLE64 = {
-    2, 180, 64, &_HZ_64, FONT_TYPE_IMG
+    2, 180, 64, _HZ_64, FONT_TYPE_IMG
 };
 #endif
 
@@ -1630,7 +1631,7 @@ const u8 _FONT_DIGIT23[]=
     0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x60,0x00,0x60,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,/*":",26*/
 };
 Font_Type FONT_DIGIT23 = {
-    1, 14, 23, &_FONT_DIGIT23, FONT_TYPE_ASCII
+    1, 14, 23, _FONT_DIGIT23, FONT_TYPE_ASCII
 };
 
 // 扫雷图片-未翻开（按钮形状）/ 翻开 背景
@@ -1656,7 +1657,7 @@ const u8 _IMG_2BIT_BLOCK_BG23[]=
     0XAA,0XAA,0XAA,0XA8,
 };
 Font_Type FONT_IMG_2BIT_BLOCK_BG23 = {
-    2, 23, 23, &_IMG_2BIT_BLOCK_BG23, FONT_TYPE_IMG
+    2, 23, 23, _IMG_2BIT_BLOCK_BG23, FONT_TYPE_IMG
 };
 
 // 扫雷图片-插旗 / 拔旗 (未翻开状态的凸起部分)
@@ -1668,7 +1669,7 @@ const u8 _IMG_2BIT_BLOCK_FLAG16[]=
     0X00,0X3F,0XFC,0X00,0X03,0XFF,0XFF,0XC0,0X03,0XFF,0XFF,0XC0,0X00,0X00,0X00,0X00
 };
 Font_Type FONT_IMG_2BIT_BLOCK_FLAG16 = {
-    2, 16, 16, &_IMG_2BIT_BLOCK_FLAG16, FONT_TYPE_IMG
+    2, 16, 16, _IMG_2BIT_BLOCK_FLAG16, FONT_TYPE_IMG
 };
 
 // 扫雷图片-雷-数字1-8-错雷（带叉）
@@ -1759,7 +1760,7 @@ const u8 _IMG_2BIT_BLOCK_MINE_AND_NUMS22[]=
     0XAA,0XA0,0XAA,0XAA,0XAA,0XAA,0XAA,0XA0
 };
 Font_Type FONT_IMG_2BIT_BLOCK_MINE_AND_NUMS22 = {
-    2, 22, 22, &_IMG_2BIT_BLOCK_MINE_AND_NUMS22, FONT_TYPE_IMG
+    2, 22, 22, _IMG_2BIT_BLOCK_MINE_AND_NUMS22, FONT_TYPE_IMG
 };
 
 // ==============================================================================
@@ -1778,7 +1779,7 @@ u16 FONT_getByteIndexAtFontData(u8 *chr, Font_Type *fontType, Font_Type **useFon
 
     if (fontType->type == FONT_TYPE_IMG) {
         // 这里有一个约定。如果是位图字体那么认为传入的chr的值(非chr指向的内容而是chr这个指针本身的值)直接就是编号
-        charNoIdx = (u16)chr;
+        charNoIdx = (u16)(uintptr_t)chr;
     }
     else if (chr[0] >= 0x20 && chr[0] <= 0x7E) {
         // 判定为半角ASCII码

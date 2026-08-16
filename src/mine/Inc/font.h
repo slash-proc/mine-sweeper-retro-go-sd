@@ -11,9 +11,9 @@ typedef struct
   u8  bitPerPixel; // 每个像素使用几位
   u8  fontWidth;   // 字体宽度
   u8  fontHeight;  // 字体高度
-  u8* fontArray;   // 点阵数组
+  const u8* fontArray;   // 点阵数组
   u8  type;        // 点阵内容（0:ASCII 1:汉字 2:位图(组)）
-  u8* hzStr;       // 汉字字库索引，按顺序包含了字库中所有汉字的字符串。Ascii不需要，可直接根据ascii码计算出索引。
+  const u8* hzStr; // 汉字字库索引，按顺序包含了字库中所有汉字的字符串。Ascii不需要，可直接根据ascii码计算出索引。
   void*          asciiZk;     // 如果想做到汉字和半角混排，那么汉字字库里提供一个半角的字库指针。
 } Font_Type;
 

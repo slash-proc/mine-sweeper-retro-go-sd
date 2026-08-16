@@ -1,5 +1,6 @@
 #include "mine_common.h"
 #include <stdio.h>
+#include <stdint.h>
 #include "string.h"
 #include "display.h"
 #include "embMine.h"
@@ -86,7 +87,7 @@ u16 _ColorFrame=0x0000;
 void clearScreen(void);     // 清屏
 Font_Type* showChar(u16 x, u16 y, u8 *chr, Font_Type *font, u16 colorBg, u16 colorFont);
 void showStringMutiColor(u16 x, u16 y, u8 *str, Font_Type *font, u8 isClear, u16 colorBg, u8 colorCnt, u16 color1, u16 color2, u16 color3, u16 color4, u16 color5, u16 color6, u16 color7);
-Font_Type* showMutiBitImg(u16 x, u16 y, u8 *chr, Font_Type *font, u16 color1, u16 color2, u16 color3, u16 color4, u16 color5, u16 color6, u16 color7);
+Font_Type* showMutiBitImg(u16 x, u16 y, u16 imgIdx, Font_Type *font, u16 color1, u16 color2, u16 color3, u16 color4, u16 color5, u16 color6, u16 color7);
 
 // 获取随机颜色
 u16 randRGB565(){
@@ -350,7 +351,7 @@ void DISP_updateGameBlock(u8 x, u8 y){
                 break;
             }
             // 画数字(数字正好对应数组中的位置)
-            showMutiBitImg(startX+1, startY+1, (u8 *)blockViewNum, &FONT_IMG_2BIT_BLOCK_MINE_AND_NUMS22, 
+            showMutiBitImg(startX+1, startY+1, blockViewNum, &FONT_IMG_2BIT_BLOCK_MINE_AND_NUMS22, 
                         numColor, COLOR_MINE_BLOCK_DIGED, 0, 0,0,0,0);
         }
     }
@@ -425,7 +426,7 @@ Font_Type* showCharMutiColor(u16 x, u16 y, u8 *chr, Font_Type *font, u16 colorBg
     u8 nowRow=0,nowCol=0,fontWidth=0,fontHeight=0;
     u8 bytePerRow,bitIndex=0,charByteCnt=0;
     u16 charDataStartIndex=0;
-    u8* fontData;
+    const u8* fontData;
     u16 errSwitchColorTmp;
     u8 bitPerPixel;
     u8 bitIdxInPixel;
@@ -575,9 +576,9 @@ Font_Type* showChar(u16 x, u16 y, u8 *chr, Font_Type *font, u16 colorBg, u16 col
     return showCharMutiColor(x, y, chr, font, colorBg, 1, colorFont,0,0,0,0,0,0);
 }
 
-Font_Type* showMutiBitImg(u16 x, u16 y, u8 *chr, Font_Type *font, u16 color1, u16 color2, u16 color3, u16 color4, u16 color5, u16 color6, u16 color7){
+Font_Type* showMutiBitImg(u16 x, u16 y, u16 imgIdx, Font_Type *font, u16 color1, u16 color2, u16 color3, u16 color4, u16 color5, u16 color6, u16 color7){
 
-    return showCharMutiColor(x, y, chr, font, 0, 0, color1, color2, color3, color4, color5, color6, color7 );
+    return showCharMutiColor(x, y, (u8 *)(uintptr_t)imgIdx, font, 0, 0, color1, color2, color3, color4, color5, color6, color7 );
 }
 
 //居中显示字符串,指定颜色
