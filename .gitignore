@@ -8,3 +8,4 @@
 *.lst
 .DS_Store
 __pycache__/
+_upstream_mine/
