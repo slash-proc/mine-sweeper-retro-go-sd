@@ -42,6 +42,8 @@
 #ifndef __KEY_H_
 #define __KEY_H_
 
+#include "def_types.h"
+
 // for G&W
 #define KEY_UP 1
 #define KEY_DOWN 2
@@ -58,7 +60,7 @@
 
 // 按键回调事件函数指针类型定义 （不要修改）
 // 定义了一个名为『pBtnEventFunc』的函数指针类型，可以指向的函数没有返回值，有一个参数用于接受不同事件(见后面的事件宏定义)
-typedef void (*pBtnEventFunc)(u8);
+typedef void (*pBtnEventFunc)(u8 event_id);
 
 // 事件ID定义
 #define KEY_EVENT_CLICK         0 //单击（按下并在指定时间内放开后触发一次）此事件与按下/抬起事件只能选择其一
