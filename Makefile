@@ -64,15 +64,14 @@ PACK_HOMEBREW := $(GNW_CORE_SDK)/tools/pack_homebrew.py
 .PHONY: cover
 cover: $(COVER_JPG)
 
-# Must fit gui.c COVER_MAX_WIDTH x COVER_MAX_HEIGHT (186x100) and
-# COVER_SIZE (10 KiB) — oversized covers smash the HW JPEG scratch.
+# Homebrew cover: 128×96 (within gui.c COVER_MAX 186×100) and ≤10 KiB.
 $(COVER_JPG): src/assets/cover_src.jpg
 	@mkdir -p $(BUILD_DIR)
 	python3 -c "from pathlib import Path; from PIL import Image; \
 img=Image.open('src/assets/cover_src.jpg').convert('RGB'); \
-img.thumbnail((186,100)); \
-canvas=Image.new('RGB', (186,100), (16,24,40)); \
-x=(186-img.width)//2; y=(100-img.height)//2; \
+img.thumbnail((128,96)); \
+canvas=Image.new('RGB', (128,96), (16,24,40)); \
+x=(128-img.width)//2; y=(96-img.height)//2; \
 canvas.paste(img, (x,y)); \
 canvas.save('$(COVER_JPG)', 'JPEG', quality=80, optimize=True); \
 sz=Path('$(COVER_JPG)').stat().st_size; \
