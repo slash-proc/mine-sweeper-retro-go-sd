@@ -1,25 +1,44 @@
 # Changelog
 
-Initial release of Mine Sweeper homebrew port.
+This file follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and
+[Semantic Versioning](https://semver.org/spec/v2.0.0.html). Release tags must
+match a section heading exactly (for example `v1.0.0`); CI reads the matching
+section and uses it as the GitHub Release notes.
 
-## [v0.0.1]
+When you cut a release:
+
+1. Move items from `[Unreleased]` into a new `## [vX.Y.Z] - YYYY-MM-DD` section.
+2. Commit the changelog update.
+3. Push the tag: `git tag vX.Y.Z && git push origin vX.Y.Z`
+
+## [Unreleased]
+
+## [v0.1.0] - 2026-09-04
+
+First release of Minesweeper as a Retro-Go SD homebrew, and the first release
+published for the GWRG distribution model.
 
 ### Added
 
-- Nothing.
-
-### Changed
-
-- Nothing.
-
-### Fixed
-
-- Nothing.
+- Minesweeper ported from
+  [slipperstree/game-and-watch-mine-sweeper](https://github.com/slipperstree/game-and-watch-mine-sweeper)
+  as a GWHB homebrew, packed by `pack_homebrew.py` with an embedded cover.
+- `manifest.json` release asset describing the build per the
+  [GWRG distribution spec](https://github.com/slash-proc/gwrg-dist-spec). The
+  firmware ABI requirement and display name are read out of the packed GWHB
+  header, so the manifest cannot drift from the binary.
+- Offline bundle (`minesweeper-<tag>.zip`) holding the manifest and the files it
+  names, so the release stays installable if this repository disappears. Every
+  file is checked against the manifest's size and hash before it is added.
+- GitHub Pages mirror of the newest 5 releases, rebuilt from the releases on
+  every tag, so a web installer can read them (browsers cannot fetch release
+  assets cross-origin).
 
 ### Install
 
-- Unzip `MineSweeper-<tag>.zip` onto the SD card root (lays down
-  `/homebrews/MineSweeper.bin`).
-- Optional coverflow override: `/covers/homebrew/MineSweeper.img` (JPEG ≤128×96,
-  ≤10 KiB).
-- Debug symbols (crash PC/LR): `MineSweeper-<tag>-debug.zip` (ELF + map).
+- Copy `minesweeper.bin` to `/homebrews/` on the SD card.
+- Optional coverflow override: `/covers/homebrew/minesweeper.img`
+  (JPEG ≤186×100, ≤10 KiB). The binary already embeds a cover.
+- Requires firmware whose ABI matches `SDK_VERSION` in this repository.
+
+No ROM or asset conversion is needed, so an installer never asks for a file.
