@@ -45,7 +45,7 @@ else ifeq ($(PROJECT_KIND),homebrew)
 CORE_C_DEFS := \
 -DPROJECT_KIND_HOMEBREW=1
 
-PACKED_BIN := MineSweeper.bin
+PACKED_BIN := minesweeper.bin
 COVER_JPG  := $(BUILD_DIR)/cover.jpg
 
 else

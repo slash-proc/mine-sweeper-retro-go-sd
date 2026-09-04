@@ -1,15 +1,9 @@
 # Changelog
 
-This file is a template for the single project created from this repo.
-At project setup time you choose exactly one kind by setting `PROJECT_KIND`
-to `core` or `homebrew` (you will only build/release that chosen kind).
-
-Update the content for your project and keep the section heading matching
-the pushed release tag (CI requirement).
-
 This file follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Release tags must
-match a section heading exactly (for example `v1.0.0`).
+match a section heading exactly (for example `v1.0.0`); CI reads the matching
+section and uses it as the GitHub Release notes.
 
 When you cut a release:
 
@@ -17,56 +11,34 @@ When you cut a release:
 2. Commit the changelog update.
 3. Push the tag: `git tag vX.Y.Z && git push origin vX.Y.Z`
 
-CI reads the matching section and uses it as the GitHub Release notes. The tag
-is also used in staged asset names (`<binary>-<tag>.bin`, `<binary>-<tag>.zip`).
-
 ## [Unreleased]
 
-### Added
+## [v0.1.0] - 2026-09-04
 
-- (your changes here)
-
-### Changed
-
-- (your changes here)
-
-### Fixed
-
-- (your changes here)
-
-## [v1.0.0] - 2026-08-12
-
-Initial public release for your chosen kind (`core` or `homebrew`).
+First release of Minesweeper as a Retro-Go SD homebrew, and the first release
+published for the GWRG distribution model.
 
 ### Added
 
-- Freestanding Cortex-M7 skeleton (`src/main.c`) with LCD demo, square-wave
-  audio, save/load/screenshot hooks, and watchdog-friendly frame loop.
-- Vendored SDK, linker scripts, and ABI bridge for `gw_firmware_abi_t`.
-- Packaging for both project kinds:
-  - **core** → `pack_core.py`, SD path `/cores/<name>.bin`
-  - **homebrew** → `pack_homebrew.py`, SD path `/homebrews/<name>.bin`
-- Docker builder integration (`make docker`) using `sylverb/retro-go-sd-builder`.
-- CI build on push/PR and automated GitHub Release on `v*` tags.
+- Minesweeper ported from
+  [slipperstree/game-and-watch-mine-sweeper](https://github.com/slipperstree/game-and-watch-mine-sweeper)
+  as a GWHB homebrew, packed by `pack_homebrew.py` with an embedded cover.
+- `manifest.json` release asset describing the build per the
+  [GWRG distribution spec](https://github.com/slash-proc/gwrg-dist-spec). The
+  firmware ABI requirement and display name are read out of the packed GWHB
+  header, so the manifest cannot drift from the binary.
+- Offline bundle (`minesweeper-<tag>.zip`) holding the manifest and the files it
+  names, so the release stays installable if this repository disappears. Every
+  file is checked against the manifest's size and hash before it is added.
+- GitHub Pages mirror of the newest 5 releases, rebuilt from the releases on
+  every tag, so a web installer can read them (browsers cannot fetch release
+  assets cross-origin).
 
 ### Install
 
-Only the section corresponding to your chosen `PROJECT_KIND` is relevant for
-your derived project.
-
-**Core (`PROJECT_KIND=core`, default)**
-
-- Copy `example.bin` to `/cores/` on the SD card.
-- Place test ROMs under `/roms/example/` (dirname matches `CORE_NAME` in the
-  Makefile).
+- Copy `minesweeper.bin` to `/homebrews/` on the SD card.
+- Optional coverflow override: `/covers/homebrew/minesweeper.img`
+  (JPEG ≤186×100, ≤10 KiB). The binary already embeds a cover.
 - Requires firmware whose ABI matches `SDK_VERSION` in this repository.
 
-**Homebrew (`PROJECT_KIND=homebrew`)**
-
-- Set `PROJECT_KIND=homebrew` in the Makefile, rebuild, then copy
-  `ExampleHB.bin` to `/homebrews/`.
-- Optional coverflow override: `/covers/homebrew/ExampleHB.img` (JPEG ≤186×100,
-  ≤10 KiB).
-
-The release archive contains the ready-to-copy SD layout for the active project
-kind only (`cores/` or `homebrews/`).
+No ROM or asset conversion is needed, so an installer never asks for a file.
