@@ -3,7 +3,7 @@
 GWHB port of [slipperstree/game-and-watch-mine-sweeper](https://github.com/slipperstree/game-and-watch-mine-sweeper)
 for [Game & Watch Retro-Go SD](https://github.com/sylverb/game-and-watch-retro-go-sd).
 
-Drop `MineSweeper.bin` on the SD card under `/roms/homebrew/`.
+Drop `minesweeper.bin` on the SD card under `/roms/homebrew/`.
 
 ## Build
 
@@ -13,7 +13,7 @@ make                    # PROJECT_KIND=homebrew is the default
 make docker
 ```
 
-Produces `MineSweeper.bin` (optional cover override: `/covers/homebrew/MineSweeper.img`).
+Produces `minesweeper.bin` (optional cover override: `/covers/homebrew/minesweeper.img`).
 
 ## Controls
 
@@ -38,3 +38,30 @@ Pause / power stay with Retro-Go (system menu / sleep).
 - Homebrew glue / SDK template: MIT (see `LICENSE`)
 - Ported `src/mine/` sources retain upstream BSD-3-Clause (see upstream `COPYING`)
 - Vendored files under `sdk/include/` keep their upstream licenses
+
+## Distribution
+
+Tagged releases carry a `manifest.json` describing the build per the
+[GWRG distribution spec](https://github.com/slash-proc/gwrg-dist-spec), and CI
+mirrors the newest 5 releases to GitHub Pages so a web installer can read them
+(browsers cannot fetch release assets cross-origin).
+
+```
+https://slash-proc.github.io/mine-sweeper-retro-go-sd/dist/versions.json
+https://slash-proc.github.io/mine-sweeper-retro-go-sd/dist/<tag>/manifest.json
+https://slash-proc.github.io/mine-sweeper-retro-go-sd/dist/<tag>/minesweeper.bin
+```
+
+Each version is also published as an offline bundle — `dist/minesweeper-<tag>-bundle.zip`,
+containing the manifest and the files it names — so a release stays installable
+if this repository disappears.
+
+Releases remain the source of truth; `scripts/build_dist.py` rebuilds the whole
+Pages tree from them on every tag, so the mirror is disposable.
+
+`scripts/make_manifest.py` reads the firmware ABI requirement and display name
+out of the packed GWHB header — never from a constant — so the manifest cannot
+drift from the binary it describes.
+
+Minesweeper needs no proprietary assets, so its manifest declares `"tools": []`
+and an installer never asks the user for a file.
