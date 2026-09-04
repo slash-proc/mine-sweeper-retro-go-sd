@@ -122,8 +122,6 @@ def build_manifest(*, bin_path: Path, tag: str, repo: str, commit: str) -> dict:
                 "artifacts": [
                     {
                         "filename": bin_path.name,
-                        "role": "binary",
-                        "format": "gwhb",
                         "bytes": len(payload),
                         "sha256": hashlib.sha256(payload).hexdigest(),
                         "url": bin_path.name,
