@@ -109,6 +109,26 @@ def declared_files(manifest: dict) -> list[str]:
     return sorted(set(names))
 
 
+def manifest_problem(manifest: dict) -> str | None:
+    """Why this manifest cannot be published today, or None if it can.
+
+    Checks the fields the spec's schema constrains and that a past revision
+    might have allowed. Not a full validator: it exists so an old release
+    drops out of the mirror instead of failing the conformance run.
+    """
+    for target in manifest.get("targets", []):
+        for artifact in target.get("artifacts", []):
+            extra = set(artifact) - {"filename", "bytes", "sha256", "url"}
+            if extra:
+                return f"artifact has fields the spec removed: {', '.join(sorted(extra))}"
+    for tool in manifest.get("tools", []):
+        for output in tool.get("outputs", []):
+            extra = set(output) - {"id", "filename", "maxBytes"}
+            if extra:
+                return f"output has fields the spec removed: {', '.join(sorted(extra))}"
+    return None
+
+
 def index_entry(tag: str, release: dict, manifest: dict, bundle: str | None) -> dict:
     targets = manifest["targets"]
     # Duplicated into the index so a version picker needs one fetch, not N+1.
@@ -153,6 +173,15 @@ def build(*, repo: str, out: Path, retain: int, bundles: bool = True,
         manifest = json.loads((dest / "manifest.json").read_text(encoding="utf-8"))
         if manifest["schemaVersion"] != SCHEMA_VERSION:
             print(f"skip {tag}: schemaVersion {manifest['schemaVersion']}", file=sys.stderr)
+            shutil.rmtree(dest, ignore_errors=True)
+            continue
+        # A retained release was published against whatever the spec said at the
+        # time. If a later revision made its manifest invalid, mirroring it
+        # anyway makes the whole project non-conformant over one old version
+        # nobody is installing. Leave it in the releases, out of the mirror.
+        problem = manifest_problem(manifest)
+        if problem is not None:
+            print(f"skip {tag}: {problem}", file=sys.stderr)
             shutil.rmtree(dest, ignore_errors=True)
             continue
         if manifest["source"]["ref"] != tag:
