@@ -13,6 +13,21 @@ When you cut a release:
 
 ## [Unreleased]
 
+## [v0.1.1] - 2026-09-05
+
+### Changed
+
+- The manifest no longer emits `role` or `format` on artifacts. Both were
+  removed from the [GWRG distribution spec](https://github.com/slash-proc/gwrg-dist-spec):
+  `format` was read only by the conformance checker's own UI, and `role` was
+  redundant because the firmware finds what to launch by scanning for `.bin`
+  rather than by consulting a manifest. Since artifacts are
+  `additionalProperties: false`, v0.1.0's published manifest no longer
+  validates, so this release republishes it.
+
+  Nothing else changes: the same binary, the same hash, the same firmware ABI
+  requirement.
+
 ## [v0.1.0] - 2026-09-04
 
 First release of Minesweeper as a Retro-Go SD homebrew, and the first release
