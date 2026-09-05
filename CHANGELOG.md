@@ -13,6 +13,45 @@ When you cut a release:
 
 ## [Unreleased]
 
+## [v0.1.3] - 2026-09-05
+
+Tooling and packaging only. The binary is the same game; what changed is what
+the release says about itself.
+
+### Fixed
+
+- The packed GWHB header carried the literal version `1.0.0` while the project
+  was at v0.1.2, so every device has shown the wrong number since the first
+  release. `CORE_VERSION` now comes from `git describe --tags --dirty`, and an
+  untagged build stamps `0.0.0` rather than claiming a release number it does
+  not have. This needs the newer `pack_homebrew.py`, whose `parse_version`
+  accepts a describe string; the previous one required a bare `X.Y.Z` and died
+  on everything else.
+- `stage_release.py` read the Makefile's `print-` targets with stderr folded
+  into stdout and then split the result into values, so a `$(warning)` emitted
+  at parse time became a value and failed the release. Nothing warns in this
+  Makefile, which is the only reason it never fired here.
+
+### Added
+
+- `docs` in the manifest, pointing at this repository's README. It is the one
+  absolute URL the [GWRG distribution spec](https://github.com/slash-proc/gwrg-dist-spec)
+  allows: somewhere a UI can send a human, as opposed to the plain filenames an
+  installer resolves.
+- A debug symbols archive (`minesweeper-<tag>-debug.zip`) holding the ELF and
+  the linker map, published for the first time.
+
+### Changed
+
+- The release tooling is now byte-identical to snake's and smw's:
+  `build_dist.py`, `make_bundle.py`, `stage_release.py`, `scripts/DEBUG_README.md`
+  and `sdk/tools/pack_homebrew.py` are the same files in all three projects, so
+  a project can vendor them without editing anything. Everything
+  project-specific they need, they ask the Makefile for.
+- Release assets: the tag-stamped copy of the binary (`minesweeper-<tag>.bin`)
+  is gone, replaced by the debug archive. The loose `minesweeper.bin` the
+  manifest names and the SD install zip are unchanged.
+
 ## [v0.1.2] - 2026-09-05
 
 ### Fixed
