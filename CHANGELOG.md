@@ -13,6 +13,16 @@ When you cut a release:
 
 ## [Unreleased]
 
+## [v0.1.2] - 2026-09-05
+
+### Fixed
+
+- The dist mirror no longer publishes a retained release whose manifest cannot
+  be validated against the current spec. v0.1.0 predates the removal of `role`
+  and `format`, and mirroring it made the whole project read as non-conformant
+  over one old version nobody installs. It stays attached to its GitHub
+  release, which is the archival record, and is simply absent from the mirror.
+
 ## [v0.1.1] - 2026-09-05
 
 ### Changed
