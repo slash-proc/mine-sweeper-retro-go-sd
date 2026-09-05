@@ -107,6 +107,9 @@ def build_manifest(*, bin_path: Path, tag: str, repo: str, commit: str) -> dict:
         "schemaVersion": SCHEMA_VERSION,
         "project": project,
         "title": title,
+        # Where a human reads about this project. Derived from the repo rather
+        # than written down, so it cannot name a repository this is not.
+        "docs": f"https://github.com/{repo}#readme",
         "source": {"repo": repo, "commit": commit, "ref": tag},
         # No proprietary assets to convert: the user supplies nothing. Stated
         # explicitly, because an absent key cannot be told from a truncated file.
