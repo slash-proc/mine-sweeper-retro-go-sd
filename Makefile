@@ -47,6 +47,9 @@ CORE_C_DEFS := \
 
 PACKED_BIN := minesweeper.bin
 COVER_JPG  := $(BUILD_DIR)/cover.jpg
+# Published with the release at full size. The cover packed into the binary is
+# capped at 186x100 and 10 KiB; this is the artwork it was made from.
+COVER_FULL := src/assets/cover_src.jpg
 
 else
 $(error PROJECT_KIND must be 'homebrew' (got '$(PROJECT_KIND)'))
@@ -93,7 +96,7 @@ pack: $(TARGET_BIN) $(COVER_JPG)
 
 all: pack
 
-.PHONY: print-PROJECT_KIND print-PACKED_BIN print-SIDECARS print-RO_BIN print-CORE_NAME print-DOCKER_IMAGE \
+.PHONY: print-PROJECT_KIND print-PACKED_BIN print-SIDECARS print-RO_BIN print-CORE_NAME print-COVER_FULL print-DOCKER_IMAGE \
 	print-TARGET_ELF print-TARGET_MAP print-CORE_VERSION
 print-PROJECT_KIND:
 	@echo $(PROJECT_KIND)
@@ -107,6 +110,8 @@ print-SIDECARS:
 	@echo $(SIDECARS)
 print-RO_BIN:
 	@echo $(RO_BIN)
+print-COVER_FULL:
+	@echo $(COVER_FULL)
 print-CORE_NAME:
 	@echo $(CORE_NAME)
 print-DOCKER_IMAGE:
