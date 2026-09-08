@@ -13,6 +13,30 @@ When you cut a release:
 
 ## [Unreleased]
 
+## [v0.2.0] - 2026-09-08
+
+### Changed
+
+- The SDK moves to the new packed-header model: `gwhb_meta_t` now carries
+  `segments_count` and a `segments[]` array instead of one code/bss pair, and
+  the firmware ABI grows to 844 bytes. Taken from upstream.
+- The shared dist scripts are current: the manifest generator reads either
+  header layout, CI reads the sidecar list from the Makefile rather than one
+  hardcoded slot, and `project` is derived as an identifier instead of copying
+  a display name.
+
+### Added
+
+- The full-size cover art is published with the release, beside the smaller
+  one packed into the binary.
+
+### Changed (device files)
+
+- The installed binary is now `MineSweeper.bin`, upstream's spelling. A card
+  that already holds `minesweeper.bin` keeps it, and the launcher lists both
+  until the old one is deleted.
+
+
 ## [v0.1.3] - 2026-09-05
 
 Tooling and packaging only. The binary is the same game; what changed is what
