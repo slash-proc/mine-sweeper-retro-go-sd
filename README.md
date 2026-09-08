@@ -13,7 +13,11 @@ make                    # PROJECT_KIND=homebrew is the default
 make docker
 ```
 
-Produces `MineSweeper.bin` (optional cover override: `/covers/homebrew/MineSweeper.img`).
+Produces `MineSweeper.bin` → copy to `/homebrews/` (or unzip a release archive
+onto the SD root). Optional cover override: `/covers/homebrew/MineSweeper.img`.
+
+Tagged releases ship two zips only: install (`MineSweeper-<tag>.zip`) and
+debug symbols (`MineSweeper-<tag>-debug.zip`, ELF + map).
 
 ## Controls
 

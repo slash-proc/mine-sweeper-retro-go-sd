@@ -18,7 +18,8 @@ Initial release of Mine Sweeper homebrew port.
 
 ### Install
 
-- Unzip the release archive onto the SD card root. It already contains:
-  /homebrews/MineSweeper.bin
-- Optional coverflow override: `/covers/homebrew/ExampleHB.img` (JPEG ≤186×100,
+- Unzip `MineSweeper-<tag>.zip` onto the SD card root (lays down
+  `/homebrews/MineSweeper.bin`).
+- Optional coverflow override: `/covers/homebrew/MineSweeper.img` (JPEG ≤128×96,
   ≤10 KiB).
+- Debug symbols (crash PC/LR): `MineSweeper-<tag>-debug.zip` (ELF + map).
