@@ -45,7 +45,7 @@ else ifeq ($(PROJECT_KIND),homebrew)
 CORE_C_DEFS := \
 -DPROJECT_KIND_HOMEBREW=1
 
-PACKED_BIN := minesweeper.bin
+PACKED_BIN := MineSweeper.bin
 COVER_JPG  := $(BUILD_DIR)/cover.jpg
 # Published with the release at full size. The cover packed into the binary is
 # capped at 186x100 and 10 KiB; this is the artwork it was made from.
