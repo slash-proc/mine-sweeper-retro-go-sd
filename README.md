@@ -3,7 +3,7 @@
 GWHB port of [slipperstree/game-and-watch-mine-sweeper](https://github.com/slipperstree/game-and-watch-mine-sweeper)
 for [Game & Watch Retro-Go SD](https://github.com/sylverb/game-and-watch-retro-go-sd).
 
-Drop `MineSweeper.bin` on the SD card under `/roms/homebrew/`.
+Drop `MineSweeper.bin` on the SD card under `/homebrews/`.
 
 ## Build
 
