@@ -60,6 +60,15 @@ include $(GNW_CORE_SDK)/Makefile
 PACK_HOMEBREW := $(GNW_CORE_SDK)/tools/pack_homebrew.py
 
 #######################################
+# Packed header version
+#######################################
+# gwhb_meta_t only stores major.minor.patch (0..255).
+# CORE_VERSION is the full git describe string passed to the packer; it
+# extracts the leading vX.Y.Z (NOTAG / missing tags → 0.0.0).
+# Override: make CORE_VERSION=v1.2.3
+CORE_VERSION ?= $(shell git describe --tags --dirty 2>/dev/null || echo NOTAG)
+
+#######################################
 # Pack
 #######################################
 .PHONY: pack cover
@@ -87,7 +96,7 @@ assert sz <= 10*1024, f'cover too big: {sz}'"
 CORE_VERSION ?= $(shell git describe --tags --abbrev=0 2>/dev/null || echo 0.0.0)
 
 pack: $(TARGET_BIN) $(COVER_JPG)
-	$(V)$(ECHO) [ PACK GWHB ] $(PACKED_BIN)
+	$(V)$(ECHO) [ PACK GWHB ] $(PACKED_BIN) version=$(CORE_VERSION)
 	$(V)python3 $(PACK_HOMEBREW) \
 		--elf $(TARGET_ELF) --bin $(TARGET_BIN) \
 		--name "Mine Sweeper" --version "$(CORE_VERSION)" \
